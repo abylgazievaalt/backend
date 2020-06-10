@@ -35,10 +35,11 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # apps
+    'users.apps.UsersConfig',
 
     # rest-framework
-    'rest-framework',
-    'rest-framework.authoken',
+    'rest_framework',
+    'rest_framework.authtoken',
     
     # django
     'django.contrib.admin',
@@ -49,10 +50,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+AUTH_USER_MODEL = 'users.MyUser'
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'users.backends.JWTAuthentication',
+    ),
+    'EXCEPTION_HANDLER': 'users.exceptions.user_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
 }
 
 MIDDLEWARE = [
